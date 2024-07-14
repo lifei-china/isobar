@@ -75,7 +75,10 @@ for prefix, files in data.items():
 
                 # 计算新的第三列误差
                 new_binError = (same_df['binError']**2 + (scale_factors_list[same_num] * mix_df['binError'])**2)**0.5
-                
+
+                if prefix == "zr-8":
+                    new_binContent = new_binContent - 0.04
+
                 # 生成新的DataFrame
                 new_df = pd.DataFrame({
                     'binCenter': same_df['binCenter'],
@@ -110,8 +113,9 @@ for key, df in result_data.items():
     if prefix in plot_mapping and same_num == 0: 
         ax = axes[plot_mapping[prefix]]
         ax.errorbar(df['binCenter'], df['new_binContent'], yerr=df['new_binError'], label=key)
-        ax.set_xlabel('Bin Center')
-        ax.set_ylabel('Bin Content')
+        ax.set_xlabel('$\Delta \phi$')
+        ax.set_ylabel('$1/N_{trig}dN_{pair}/d\Delta\phi$')
+        ax.set_ylim(-0.1,1.7 )
         ax.legend()
         ax.grid(True)
 
